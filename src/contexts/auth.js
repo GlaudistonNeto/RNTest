@@ -10,37 +10,17 @@ function AuthProvider({ children }) {
   //   console.log(res.data);
   // });
 
-  async function signUp(name, age, city, email, password, confirmPassword) {
-    await axios.post('/signup', {
-      name,
-      age,
-      city,
-      latitude,
-      longitude,
-      email,
-      password,
-      confirmPassword
-    }).then( async (value) => {
-      let uid = value.data.uid;
-      data.set({
-        name,
-        age,
-        city
-      })
-      .then( () => {
-        let data = {
-          uid: uid,
-          name: name,
-          age: age,
-          city: city,
-          email: email,
-          password: password
-        };
-
-        setUser(data);
-      })
-    } )
-  }
+  const signUp = dispatch => {
+    return ({ name, age, city, email, password, confirmPassword }) => {
+      try {
+        const res = await axios.post('signup',{
+          name, age, city, email, password, confirmPassword 
+        })
+      } catch (err) {
+        console.log(err.msg)
+      }
+    };
+  };
 
   return (
     <AuthContext.Provider value={{ signed: !!user, user, signUp }}>
