@@ -9,12 +9,12 @@ import {
   SignUpButton,
   SignUpText,
 } from './styles';
+import { AuthContext } from '../../contexts/auth';
 
 import * as Animatable from 'react-native-animatable';
 import { GooglePlacesAutocomplete }
   from 'react-native-google-places-autocomplete';
-import { Context as AuthContext } from '../../contexts/AuthContext';
-import apikey from '../../ApiKey/autoComplete';
+import { autocomplete } from '../ApiKey/keys.js';
 
 const TitleAnimated = Animatable.createAnimatableComponent(Title);
 
@@ -47,24 +47,23 @@ export default function Login() {
     alert('LOGIN!');
   }
 
-  // function handleSignUp() {
-    // if (selectCity === null) {
-    //   alert('Selecione uma cidade');
-    //   return;
-    // }
+  function handleSignUp() {
+    if (selectCity === null) {
+      alert('Selecione uma cidade');
+      return;
+    }
 
-    // if (name === '' || age === '' || email === '' || password === '' ||
-    //   confPassword === '') {
-    //   alert('Preencha Todos os Campos');
-    //   if (password !== confPassword) {
-    //     alert('As senhas não conferem');
-    //     return;
-    //   }
-    // }
-    // signUp(email, password, confPassword, name, age, selectCity, coordinates.latitude,
-    //   coordinates.longitude);
-  //   alert('SIGNUP!');
-  // }
+    if (name === '' || age === '' || email === '' || password === '' ||
+      confPassword === '') {
+      alert('Preencha Todos os Campos');
+      if (password !== confPassword) {
+        alert('As senhas não conferem');
+        return;
+      }
+    }
+    signUp(email, password, confPassword, name, age, selectCity, coordinates.latitude,
+      coordinates.longitude);
+  }
 
   if (login) {
     return (
@@ -139,7 +138,7 @@ export default function Login() {
         setSelectCity(data.terms[0].value);
       }}
       query={{
-        key: apikey,
+        key: autocomplete,
         language: 'pt-BR',
       }}
       enablePoweredByContainer={false}
@@ -171,44 +170,42 @@ export default function Login() {
       }}
     />
 
-<Input
-  placeholder="email@email.com"
-  placeholderTextColor="#666"
-  value={email}
-  onChangeText={(text) => setEmail(text)}
-/>
+    <Input
+      placeholder="email@email.com"
+      placeholderTextColor="#666"
+      value={email}
+      onChangeText={(text) => setEmail(text)}
+    />
 
-<Input
-  placeholder="******"
-  placeholderTextColor="#666"
-  secureTextEntry={true}
-  value={password}
-  onChangeText={(text) => setPassword(text)}
-/>
+    <Input
+      placeholder="******"
+      placeholderTextColor="#666"
+      secureTextEntry={true}
+      value={password}
+      onChangeText={(text) => setPassword(text)}
+    />
 
-<Input
-  placeholder="******"
-  placeholderTextColor="#666"
-  secureTextEntry={true}
-  value={confPassword}
-  onChangeText={(text) => setConfPassword(text)}
-/>
+    <Input
+      placeholder="******"
+      placeholderTextColor="#666"
+      secureTextEntry={true}
+      value={confPassword}
+      onChangeText={(text) => setConfPassword(text)}
+    />
 
-<Button onPress={() => signUp({
-    name, age, email, password
-  })}>
-  {/* {
-    loadingAuth ? (
-      <ActivityIndicator size={20} color="#cf3030" />
-    ) : ( */}
-      <ButtonText>Cadastrar</ButtonText>
-  {/*  )
-  { */}
-</Button>
+  <Button onPress={handleSignUp}>
+    {/* {
+      loadingAuth ? (
+        <ActivityIndicator size={20} color="#cf3030" />
+      ) : ( */}
+        <ButtonText>Cadastrar</ButtonText>
+      {/* )
+    } */}
+  </Button>
 
-<SignUpButton onPress={() => toggleLogin()}>
-  <SignUpText>Já sou BeGraTo</SignUpText>
-</SignUpButton>
-    </Container>
+  <SignUpButton onPress={() => toggleLogin()}>
+    <SignUpText>Já sou BeGraTo</SignUpText>
+  </SignUpButton>
+  </Container>
   );
 }
