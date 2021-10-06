@@ -5,16 +5,16 @@ import AppRoutes from './app.routes';
 import AuthRoutes from './auth.routes';
 
 function Routes() {
-  const signed = false;
-  const loading = false;
+  const isSignedIn = false;
+  const isLoading = false;
 
-  if (loading) {
+  if (isLoading) {
     <View style={{flex:1, justifyContent: 'center', alignItems: 'center'}}>
       <ActivityIndicator size={50} color="red" />
     </View>
   }
   return (
-    signed ? <AppRoutes /> : <AuthRoutes />
+    isSignedIn ? <AppRoutes /> : <AuthRoutes />
   );
 }
 
