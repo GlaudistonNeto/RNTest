@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react';
-import { ActivityIndicator, Text } from 'react-native';
+import { Text } from 'react-native';
 import {
   Container,
   Title,
@@ -9,23 +9,23 @@ import {
   SignUpButton,
   SignUpText,
 } from './styles';
-import { AuthContext } from '../../contexts/auth';
-
 import * as Animatable from 'react-native-animatable';
 import { GooglePlacesAutocomplete }
   from 'react-native-google-places-autocomplete';
-import apikey from '../../ApiKey/autoComplete';
+import { autocomplete } from '../ApiKey/keys.js';
+import { Context as AuthContext } from '../../contexts/AuthContext';
 
 const TitleAnimated = Animatable.createAnimatableComponent(Title);
 
 export default function Login() {
-  const { state, signUp, signIn, loadingAuth } = useContext(AuthContext);
+  const { state, signup, signin, signout } = useContext(AuthContext);
 
   const [login, setLogin] = useState(false);
   const [name, setName] = useState('');
   const [age, setAge] = useState('');
   const [selectCity, setSelectCity] = useState(null);
   const [coordinates, setCoordinates] = useState(null);
+  const [city, setCity] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confPassword, setConfPassword] = useState('');
@@ -34,6 +34,7 @@ export default function Login() {
     setLogin(!login);
     setName('');
     setAge('');
+    setCity('');
     setEmail('');
     setPassword('');
     setConfPassword('');
@@ -61,8 +62,16 @@ export default function Login() {
         return;
       }
     }
-    signUp(email, password, confPassword, name, age, selectCity, coordinates.latitude,
-      coordinates.longitude);
+    signup(
+      email,
+      password,
+      confPassword,
+      name,
+      age,
+      selectCity,
+      coordinates.latitude,
+      coordinates.longitude
+    );
   }
 
   if (login) {
@@ -87,7 +96,7 @@ export default function Login() {
       value={password}
       onChangeText={(text) => setPassword(text)}
     />
- 
+  
     <Button onPress={handleLogin}>
       {/* { */}
         {/* loadingAuth ? (
@@ -138,7 +147,7 @@ export default function Login() {
         setSelectCity(data.terms[0].value);
       }}
       query={{
-        key: apikey,
+        key: autocomplete,
         language: 'pt-BR',
       }}
       enablePoweredByContainer={false}
@@ -194,13 +203,15 @@ export default function Login() {
     />
 
   <Button onPress={handleSignUp}>
-    {
+    {/* {
       loadingAuth ? (
         <ActivityIndicator size={20} color="#cf3030" />
-      ) : (
-        <ButtonText>Cadastrar</ButtonText>
-      )
-    }
+      ) : ( */}
+        <ButtonText onPress={() => signup({
+          name, age, city, email, password
+        })}>Cadastrar</ButtonText>
+      {/* )
+    } */}
   </Button>
 
   <SignUpButton onPress={() => toggleLogin()}>
