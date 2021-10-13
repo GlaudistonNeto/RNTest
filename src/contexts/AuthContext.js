@@ -15,8 +15,11 @@ const signup = dispatch => {
       name,
       age,
       city,
+<<<<<<< HEAD
       latitude,
       longitude,
+=======
+>>>>>>> 12e435f5487132f2dd5a6b91775c57cf2eaadbde
       email,
       password,
       confirmPassword
