@@ -9,17 +9,14 @@ const authReducer = (state, action) => {
 };
 
 const signup = dispatch => {
-  return async ({ name, age, city, email, password, confirmPassword }) => {
+  return async ({ name, age, city, latitude, longitude, email, password, confirmPassword }) => {
     try {
       const res = await axios.post('/signup', {
       name,
       age,
       city,
-<<<<<<< HEAD
       latitude,
       longitude,
-=======
->>>>>>> 12e435f5487132f2dd5a6b91775c57cf2eaadbde
       email,
       password,
       confirmPassword
