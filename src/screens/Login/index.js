@@ -45,8 +45,13 @@ export default function Login() {
       alert('Preencha os campos!');
       return;
     }
-    alert('LOGIN!');
-  }
+    alert('Login!')
+    
+  signin({
+    email,
+    password
+  });
+}
 
   function handleSignUp() {
     if (selectCity === null) {
@@ -62,16 +67,16 @@ export default function Login() {
         return;
       }
     }
-    signup(
+    signup({
       email,
       password,
       confPassword,
       name,
       age,
-      selectCity,
-      coordinates.latitude,
-      coordinates.longitude
-    );
+      city: selectCity,
+      latitude: coordinates.latitude,
+      longitude: coordinates.longitude
+    });
   }
 
   if (login) {
@@ -207,9 +212,11 @@ export default function Login() {
       loadingAuth ? (
         <ActivityIndicator size={20} color="#cf3030" />
       ) : ( */}
-        <ButtonText onPress={() => signup({
+        {/* <ButtonText onPress={() => signup({
           name, age, city, email, password
-        })}>Cadastrar</ButtonText>
+        })}>Cadastrar</ButtonText> */}
+
+        <ButtonText>Cadastrar</ButtonText>
       {/* )
     } */}
   </Button>
