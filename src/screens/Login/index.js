@@ -14,6 +14,7 @@ import { GooglePlacesAutocomplete }
   from 'react-native-google-places-autocomplete';
 import { autocomplete } from '../ApiKey/keys.js';
 import { Context as AuthContext } from '../../contexts/AuthContext';
+import { interpolate } from 'react-native-reanimated';
 
 const TitleAnimated = Animatable.createAnimatableComponent(Title);
 
@@ -53,19 +54,30 @@ export default function Login() {
   });
 }
 
+  
+function isInt(age) {
+  return !isNaN(age) && 
+         parseInt(Number(age)) == age && 
+         !isNaN(parseInt(age, 10));
+}
   function handleSignUp() {
-    if (selectCity === null) {
-      alert('Selecione uma cidade');
-      return;
+    if (name === '') {
+      alert('Preencha o campo NOME!');
     }
-
-    if (name === '' || age === '' || email === '' || password === '' ||
-      confPassword === '') {
-      alert('Preencha Todos os Campos');
-      if (password !== confPassword) {
-        alert('As senhas não conferem');
-        return;
-      }
+    else if (age === '' || age < 18 || !isInt(age)) {
+      alert('Você precisa ser maior de idade para ser Begrato');
+    }
+    else if (city === '') {
+      alert('Preencha o campo CIDADE!');
+    }
+    else if (email === '') {
+      alert('Preencha o campo EMAIL!');
+    }
+    else if (password === '') {
+      alert('Preencha o campo PASSWORD!');
+    }
+    else if (confPassword === '' || password !== confPassword) {
+      alert('Confirm o seu PASSWORD corretamente!');
     }
     signup({
       email,

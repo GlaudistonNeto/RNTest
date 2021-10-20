@@ -3,26 +3,39 @@ import axios from '../services/axios';
 
 const authReducer = (state, action) => {
   switch (action.type) {
+    case 'add_error':
+      return { ...state, errorMessage: action.payload };
     default:
       return state;
   }
 };
 
 const signup = dispatch => {
-  return async ({ name, age, city, latitude, longitude, email, password, confPassword }) => {
+  return async ({
+                  name,
+                  age,
+                  city,
+                  latitude,
+                  longitude,
+                  email,
+                  password,
+                  confPassword
+                }) => {
     try {
       const res = await axios.post('/signup', {
-      name,
-      age,
-      city,
-      latitude,
-      longitude,
-      email,
-      password,
-      confPassword
+        name,
+        age,
+        city,
+        latitude,
+        longitude,
+        email,
+        password,
+        confPassword
       });
-      console.log(res.data);
-    } catch (err) {console.log(err.msg)}
+      console.log(data);
+    } catch (err) {
+      dispatch({ type: 'add_error', payload: 'something is wrong here...' });
+    }
   }
 }
 
@@ -41,5 +54,5 @@ export const { Provider, Context } = createDataContext(
     signin,
     signout
   },
-  { isSignedIn: false }
+  { isSignedIn: false, errorMessage: '' }
 );
