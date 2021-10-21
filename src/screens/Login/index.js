@@ -55,39 +55,29 @@ export default function Login() {
 }
 
   
-function isInt(age) {
-  return !isNaN(age) && 
-         parseInt(Number(age)) == age && 
-         !isNaN(parseInt(age, 10));
-}
   function handleSignUp() {
-    if (name === '') {
-      alert('Preencha o campo NOME!');
+  if (selectCity === null) {
+    alert('Selecione uma cidade');
+    return;
+  }
+
+  if (name === '' || age === '' || email === '' || password === '' ||
+    confPassword === '') {
+    alert('Preencha Todos os Campos');
+    if (password !== confPassword) {
+      alert('As senhas não conferem');
+      return;
     }
-    else if (age === '' || age < 18 || !isInt(age)) {
-      alert('Você precisa ser maior de idade para ser Begrato');
-    }
-    else if (city === '') {
-      alert('Preencha o campo CIDADE!');
-    }
-    else if (email === '') {
-      alert('Preencha o campo EMAIL!');
-    }
-    else if (password === '') {
-      alert('Preencha o campo PASSWORD!');
-    }
-    else if (confPassword === '' || password !== confPassword) {
-      alert('Confirm o seu PASSWORD corretamente!');
-    }
+  }
     signup({
-      email,
-      password,
-      confPassword,
-      name,
-      age,
-      city: selectCity,
-      latitude: coordinates.latitude,
-      longitude: coordinates.longitude
+      // email,
+      // password,
+      // confPassword,
+      // name,
+      // age,
+      // city: selectCity,
+      // latitude: coordinates.latitude,
+      // longitude: coordinates.longitude
     });
   }
 
@@ -232,6 +222,8 @@ function isInt(age) {
       {/* )
     } */}
   </Button>
+
+  {state.errorMessage ? <Text style={{ color: 'red', fontSize: 20}}>{state.errorMessage}</Text> : null}
 
   <SignUpButton onPress={() => toggleLogin()}>
     <SignUpText>Já sou BeGraTo</SignUpText>
