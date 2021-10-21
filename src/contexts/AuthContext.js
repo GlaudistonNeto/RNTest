@@ -1,20 +1,17 @@
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import createDataContext from "./createDataContext";
 import axios from '../services/axios';
 
 const authReducer = (state, action) => {
   switch (action.type) {
-    case  'add_error':
-      return { ...state, errorMessage: action.payload };
     default:
       return state;
   }
 };
 
 const signup = dispatch => {
-  return async ({ name, age, city, email, password, confirmPassword }) => {
+  return async ({ name, age, city, latitude, longitude, email, password, confPassword }) => {
     try {
-      const res = await axios.post('/signup', {
+      const sta = await axios.post('/signup', {
       name,
       age,
       city,
@@ -22,12 +19,11 @@ const signup = dispatch => {
       longitude,
       email,
       password,
-      confirmPassword
+      confPassword
       });
-      await AsyncStorage.setItem('token', data.token);
-      dispatch({ type: 'signup', payload: data.token });
+      console.log(sta.status);
     } catch (err) {
-      dispatch({ type: 'add_error', payload: 'Something went wrong' });
+      console.log(err);
     }
   }
 }
@@ -47,5 +43,5 @@ export const { Provider, Context } = createDataContext(
     signin,
     signout
   },
-  { token: null, errorMessage: '' }
+  { isSignedIn: false }
 );

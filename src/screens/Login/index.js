@@ -14,7 +14,6 @@ import { GooglePlacesAutocomplete }
   from 'react-native-google-places-autocomplete';
 import { autocomplete } from '../ApiKey/keys.js';
 import { Context as AuthContext } from '../../contexts/AuthContext';
-import { interpolate } from 'react-native-reanimated';
 
 const TitleAnimated = Animatable.createAnimatableComponent(Title);
 
@@ -54,30 +53,46 @@ export default function Login() {
   });
 }
 
-  
   function handleSignUp() {
-  if (selectCity === null) {
-    alert('Selecione uma cidade');
-    return;
-  }
+    if (selectCity === null) {
+      alert('Selecione uma cidade');
+      return;
+    }
 
-  if (name === '' || age === '' || email === '' || password === '' ||
-    confPassword === '') {
-    alert('Preencha Todos os Campos');
+    if (
+        name === null ||
+        name === '' ||
+        age === null ||
+        age === '' ||
+        email === null ||
+        email === '' ||
+        password === null ||
+        password === '' ||
+        confPassword === null ||
+        confPassword === ''
+        ) {
+      alert('Preencha Todos os Campos');
+        return;
+      }
+      
+    if (age < 18 ) {
+      alert('Você precisa ser maior de idade para ser Begrato');
+      return;
+    }
+    
     if (password !== confPassword) {
       alert('As senhas não conferem');
       return;
     }
-  }
     signup({
-      // email,
-      // password,
-      // confPassword,
-      // name,
-      // age,
-      // city: selectCity,
-      // latitude: coordinates.latitude,
-      // longitude: coordinates.longitude
+      email,
+      password,
+      confPassword,
+      name,
+      age,
+      city: selectCity,
+      latitude: coordinates.latitude,
+      longitude: coordinates.longitude
     });
   }
 
@@ -139,6 +154,7 @@ export default function Login() {
     <Input
       placeholder="Idade"
       placeholderTextColor="#666"
+      keyboardType="number-pad"
       value={age}
       onChangeText={(text) => setAge(text)}
     />
@@ -222,8 +238,6 @@ export default function Login() {
       {/* )
     } */}
   </Button>
-
-  {state.errorMessage ? <Text style={{ color: 'red', fontSize: 20}}>{state.errorMessage}</Text> : null}
 
   <SignUpButton onPress={() => toggleLogin()}>
     <SignUpText>Já sou BeGraTo</SignUpText>
