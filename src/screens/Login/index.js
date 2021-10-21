@@ -41,12 +41,15 @@ export default function Login() {
   }
 
   function handleLogin() {
-    if (email === '' || password === '') {
+    if (
+          email === '' ||
+          email === null ||
+          password === '' ||
+          password === null
+        ) {
       alert('Preencha os campos!');
       return;
-    }
-    alert('Login!')
-    
+    }    
   signin({
     email,
     password
@@ -54,12 +57,15 @@ export default function Login() {
 }
 
   function handleSignUp() {
+    const validateEmail =
+    /^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+).(\.[a-z]{2,3})$/;
+
     if (selectCity === null) {
       alert('Selecione uma cidade');
       return;
     }
 
-    if (
+    else if (
         name === null ||
         name === '' ||
         age === null ||
@@ -75,12 +81,17 @@ export default function Login() {
         return;
       }
       
-    if (age < 18 ) {
+    else if (age < 18 ) {
       alert('Você precisa ser maior de idade para ser Begrato');
       return;
     }
+
+    else if (!validateEmail.test(email)) {
+      alert('O e-mail digitado é inválido');
+      return;
+    }
     
-    if (password !== confPassword) {
+    else if (password !== confPassword) {
       alert('As senhas não conferem');
       return;
     }

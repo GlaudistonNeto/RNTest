@@ -29,7 +29,15 @@ const signup = dispatch => {
 }
 
 const signin = dispatch => {
-  return ({ email, password }) => {}
+  try {
+    const res = await axios.post('signin', {
+      email,
+      password
+    });
+    console.log(data);
+  } catch (err) {
+    console.log(err);
+  }
 }
 
 const signout = dispatch => {
